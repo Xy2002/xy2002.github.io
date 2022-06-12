@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>如何利用Frp在没有公网的机器上运行Jmeter Server作为slave</title>
+      <link href="2022/06/13/howtousefrprunjmeterserver/"/>
+      <url>2022/06/13/howtousefrprunjmeterserver/</url>
+      
+        <content type="html"><![CDATA[<p>在做测试的作业时，突然想到bin目录下有个jmeter-server，看到server我就猜想是否能组成分布式，经过一番查找，发现是可行的，正好手上有一些白嫖的内网服务器，于是想利用自己部署好的Frp来给这些白嫖的服务器焕发第二春，但是教程都是利用内网机器做成分布式，显然是不适用于当前情况的。于是，在看过rmi的原理和经过一番摸索后，终于实现了自己的想法。</p><h2 id="Slave"><a href="#Slave" class="headerlink" title="Slave"></a>Slave</h2><h3 id="jmeter配置"><a href="#jmeter配置" class="headerlink" title="jmeter配置"></a>jmeter配置</h3><p>修改<code>bin/jmeter.properties</code>  </p><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token constant">remote_hosts</span><span class="token attr-value"><span class="token punctuation">=</span>127.0.0.1</span><span class="token comment">#重点在于修改这两项配置，端口自定义为自己想要的端口，但是两个端口需一致</span><span class="token constant">server_port</span><span class="token attr-value"><span class="token punctuation">=</span>6789 </span><span class="token constant">server.rmi.localport</span><span class="token attr-value"><span class="token punctuation">=</span>6789 </span>```  启动命令  ```bashjmeter-server -Djava.rmi.server.hostname<span class="token attr-value"><span class="token punctuation">=</span>0.0.0.0 #将0.0.0.0修改为frps端的ip</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="frpc配置"><a href="#frpc配置" class="headerlink" title="frpc配置"></a>frpc配置</h3><p>frps配置就不多介绍了，可以自行查看文档，重点在于frpc如何配置。<br>因为rmi是基于<code>tcp/ip</code>协议的，所以应该应该这样配置:</p><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token selector">[jmeter]</span><span class="token constant">type</span> <span class="token attr-value"><span class="token punctuation">=</span> tcp</span><span class="token constant">local_ip</span> <span class="token attr-value"><span class="token punctuation">=</span> 127.0.0.1</span><span class="token constant">local_port</span> <span class="token attr-value"><span class="token punctuation">=</span> 6789 #修改成自己想要的端口 </span><span class="token constant">remote_port</span> <span class="token attr-value"><span class="token punctuation">=</span> 6789 #修改成自己想要的端口</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h2><h3 id="修改jmeter配置"><a href="#修改jmeter配置" class="headerlink" title="修改jmeter配置"></a>修改jmeter配置</h3><p>修改<code>bin/jmeter.properties</code>  </p><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token selector">[jmeter]</span><span class="token comment">#将0.0.0.0修改为frps端端ip，端口为Slave配置的端口</span><span class="token constant">remote_hosts</span><span class="token attr-value"><span class="token punctuation">=</span>0.0.0.0:6789</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Jmeter </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Jmeter </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>JavaScript基础题集合</title>
       <link href="2022/05/10/javascriptbasicquestions/"/>
       <url>2022/05/10/javascriptbasicquestions/</url>
