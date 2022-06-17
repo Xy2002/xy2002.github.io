@@ -70,11 +70,11 @@
       
         <tags>
             
-            <tag> Vue </tag>
-            
             <tag> TypeScript </tag>
             
             <tag> JSX/TSX </tag>
+            
+            <tag> Vue </tag>
             
             <tag> Vite </tag>
             
@@ -153,9 +153,9 @@
       
         <tags>
             
-            <tag> Electron </tag>
-            
             <tag> Vue </tag>
+            
+            <tag> Electron </tag>
             
         </tags>
       
